@@ -6,8 +6,9 @@ This is a basic implimentation of the Esolang [BrainFuck](https://esolangs.org/w
 # Transpile your brainfuck program to Go
 py bfc.py "File Here.bf"
 
-# Run your brainfuck program in ther bytecode vm
-# this approch is very slow transpiling is recommended
+# Run your brainfuck program in ther bytecode vm.
+# sadly the bytecode vm is very slow for big programs
+# and transpiling is recommended.
 py bf.py "File Here.bf"
 ```
 <br>
