@@ -1,6 +1,6 @@
 # Brain Fuck Compiler
 
-This is a basic implementation of the Esolang [BrainFuck](https://esolangs.org/wiki/Brainfuck) on a bytecode virtual machine that can be transpiled to [Golang](https://go.dev).
+This is a basic implementation of the Esolang [BrainFuck](https://esolangs.org/wiki/Brainfuck) on a bytecode virtual machine that can be transpiled to [Golang](https://go.dev). If you want to see this but recreated on [Scratch](https://scratch.mit.edu) check [here](https://scratch.mit.edu/projects/938671954/). If you want the faster runtime check [here](https://turbowarp.org/938671954?turbo&fps=60).
 
 ```shell
 # Transpile your brainfuck program to Go
