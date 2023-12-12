@@ -1,4 +1,4 @@
-# Brain Fuck Interpreter
+# Brain Fuck Compiler
 
 This is a basic implimentation of the Esolang [BrainFuck](https://esolangs.org/wiki/Brainfuck) on a bytecode virtual machine that can be transpiled to [Golang](https://go.dev).
 
