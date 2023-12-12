@@ -68,7 +68,7 @@ class CompilerGo():
             "func SetCell(cell byte) {cells[ptr] = cell};",
             "func GetCell() byte { return cells[ptr] };",
             "func outputCell() { fmt.Print(string(GetCell())) };",
-            "func inputCell() { var s string; fmt.Print(\"\n:\"); fmt.Scanln(&s); SetCell(byte(string(s[0]))); fmt.Print(\"\n\") }"
+            "func inputCell() { var s string; fmt.Print(\"\\n:\"); fmt.Scanln(&s); SetCell(byte(s[0])); fmt.Print(\"\\n\") };"
             "func main() {",
         ]
     def Emit(self, Mnemonic): self.Code.append(Mnemonic)

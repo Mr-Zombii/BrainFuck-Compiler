@@ -10,5 +10,5 @@ tokens = Lexer(sys.argv[1]).Tokenize()
 program = Parser(tokens).ProduceAst()
 f = open(sys.argv[1].replace(".bf", ".go"), "w")
 for x in CompilerGo().Compile(program).Code:
-    f.write(x+"\n")
+    f.write(x)
 f.close()
