@@ -18,7 +18,6 @@ match end.lower().strip():
     case _:
         compiler = CompilerGo()
         end = "go"
-print(end)
 f = open(sys.argv[1].replace(".bf", "."+end), "w")
 for x in compiler.Compile(program).Code:
     f.write(x)
