@@ -4,7 +4,9 @@ This is a basic implementation of the Esolang [BrainFuck](https://esolangs.org/w
 
 ```shell
 # Transpile your brainfuck program to Go
-py bfc.py "File Here.bf"
+py bfc.py "File Here.bf" go
+# Transpile your brainfuck program to Python
+py bfc.py "File Here.bf" py
 
 # Run your brainfuck program in ther bytecode vm.
 # sadly the bytecode vm is very slow for big programs
