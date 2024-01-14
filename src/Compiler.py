@@ -104,3 +104,72 @@ class CompilerGo():
                 raise Exception("Unknown Node type "+str(node.NodeType))
             
         return self
+    
+class CompilerPy():
+    
+    depth = 0
+
+    def __init__(self) -> None:
+        self.Code = [
+            """ptr = 0
+cells = [0] * 1000
+def incPtr():
+    global ptr
+    ptr += 1
+    if ptr > 999:
+        ptr = 0
+def decPtr():
+    global ptr
+    ptr -= 1
+    if ptr < 0:
+        ptr = 999
+def incCell():
+    cells[ptr] += 1
+    if cells[ptr] > 255:
+        cells[ptr] = 0
+def decCell():
+    cells[ptr] -= 1
+    if cells[ptr] < 0:
+        cells[ptr] = 255
+def SetCell(cell): cells[ptr] = cell
+def GetCell(): return cells[ptr]
+def outputCell(): print(chr(GetCell()), end = \"\")
+def inputCell(): SetCell(input(\"\\n:\")[0])""",
+        ]
+    def Emit(self, Mnemonic): self.Code.append(Mnemonic)
+    
+    def Compile(self, node):
+        self.__compile__(node)
+        self.Emit("\n")
+        return self
+    
+    def __do_deapth__(self):
+        return "\n" + (self.depth * "\t")
+    
+    def __compile__(self, node):
+        match node.NodeType:
+            case Node.Program:
+                for stmt in node.Stmts:
+                    self.__compile__(stmt)
+            case Node.Looping:
+                self.Emit(self.__do_deapth__()+"while cells[ptr] != 0:")
+                self.depth += 1
+                for stmt in node.Stmts:
+                    self.__compile__(stmt)
+                self.depth -= 1
+            case Node.Manipulator:
+                match node.Token.Type:
+                    case Token.INCREMENT: self.Emit(self.__do_deapth__()+"incCell()")
+                    case Token.DECREMENT: self.Emit(self.__do_deapth__()+"decCell()")
+            case Node.Shifter:
+                match node.Token.Type:
+                    case Token.SHIFT_LEFT: self.Emit(self.__do_deapth__()+"incPtr()")
+                    case Token.SHIFT_RIGHT: self.Emit(self.__do_deapth__()+"decPtr()")
+            case Node.InputOutput:
+                match node.Token.Type:
+                    case Token.INPUT_BYTE: self.Emit(self.__do_deapth__()+"inputCell()")
+                    case Token.OUTPUT_BYTE: self.Emit(self.__do_deapth__()+"outputCell()")
+            case _:
+                raise Exception("Unknown Node type "+str(node.NodeType))
+            
+        return self
