@@ -14,7 +14,7 @@ match end.lower().strip():
     case "go": pass
     case "py":
         compiler = CompilerPy()
-        end = "go"
+        end = "py"
     case _:
         compiler = CompilerGo()
         end = "go"
