@@ -1,7 +1,6 @@
 from src.Ast import Node, Program
 from src.Token import Token
 class Compiler():
-    
     INCREMENT    = 0
     DECREMENT    = 1
     SHIFT_RIGHT  = 2
@@ -169,6 +168,47 @@ def inputCell(): SetCell(input(\"\\n:\")[0])""",
                 match node.Token.Type:
                     case Token.INPUT_BYTE: self.Emit(self.__do_deapth__()+"inputCell()")
                     case Token.OUTPUT_BYTE: self.Emit(self.__do_deapth__()+"outputCell()")
+            case _:
+                raise Exception("Unknown Node type "+str(node.NodeType))
+            
+        return self
+    
+class CompilerC():
+    
+    def __init__(self) -> None:
+        self.Code = ["""#include <stdio.h>
+int ptr = 0; int cells[1000];void incPtr() { ptr += 1;if (ptr > 999) {ptr = 0;}}; void decPtr() {ptr -= 1;if (ptr < 0) {ptr = 999;}};void incCell() {cells[ptr] += 1;if (cells[ptr] > 255) { cells[ptr] = 0; } }; void decCell() {cells[ptr] -= 1;if (cells[ptr] < 0) {cells[ptr] = 255; }; }; void outputCell() { printf("%c", cells[ptr]); }; void inputCell() {}; int main(int argc, char const *argv[]) {
+for (int i = 0; i < 1000; i++) { cells[i] = 0; }"""
+        ]
+    def Emit(self, Mnemonic): self.Code.append(Mnemonic)
+    
+    def Compile(self, node):
+        self.__compile__(node)
+        self.Emit("}")
+        return self
+    
+    def __compile__(self, node):
+        match node.NodeType:
+            case Node.Program:
+                for stmt in node.Stmts:
+                    self.__compile__(stmt)
+            case Node.Looping:
+                self.Emit("while (cells[ptr] != 0) {")
+                for stmt in node.Stmts:
+                    self.__compile__(stmt)
+                self.Emit("};")
+            case Node.Manipulator:
+                match node.Token.Type:
+                    case Token.INCREMENT: self.Emit("incCell();")
+                    case Token.DECREMENT: self.Emit("decCell();")
+            case Node.Shifter:
+                match node.Token.Type:
+                    case Token.SHIFT_LEFT: self.Emit("incPtr();")
+                    case Token.SHIFT_RIGHT: self.Emit("decPtr();")
+            case Node.InputOutput:
+                match node.Token.Type:
+                    case Token.INPUT_BYTE: self.Emit("inputCell();")
+                    case Token.OUTPUT_BYTE: self.Emit("outputCell();")
             case _:
                 raise Exception("Unknown Node type "+str(node.NodeType))
             
