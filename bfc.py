@@ -18,9 +18,9 @@ match end.lower().strip():
     case "py":
         compiler = CompilerPy()
         end = "py"
-    case "lua":
-        compiler = CompilerLua()
-        end = "lua"
+    # case "lua":
+    #     compiler = CompilerLua()
+    #     end = "lua"
     case _:
         compiler = CompilerGo()
         end = "go"
